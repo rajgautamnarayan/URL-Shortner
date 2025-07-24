@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - URLify</title>
+    <meta name="description"
+        content="The page you're looking for doesn't exist. This might be an invalid short URL or a broken link.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">URLify</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register" class="btn">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="error-page container">
+            <div class="error-content">
+                <h1>404</h1>
+                <h2>Oops! Page Not Found</h2>
+                <p>The page you're looking for doesn't exist. This could be:</p>
+
+                <div class="error-reasons">
+                    <div class="reason-item">
+                        <span class="reason-icon">🔗</span>
+                        <span>An invalid or expired short URL</span>
+                    </div>
+                    <div class="reason-item">
+                        <span class="reason-icon">📄</span>
+                        <span>A broken or mistyped link</span>
+                    </div>
+                    <div class="reason-item">
+                        <span class="reason-icon">🚧</span>
+                        <span>A page that has been moved or deleted</span>
+                    </div>
+                </div>
+
+                <div class="error-actions">
+                    <a href="/" class="btn">🏠 Go Home</a>
+                    <a href="/dashboard" class="btn btn-secondary">📊 Dashboard</a>
+                    <button class="btn btn-secondary" onclick="history.back()">⬅️ Go Back</button>
+                </div>
+
+                <div class="help-section">
+                    <h3>Need Help?</h3>
+                    <p>If you believe this is an error, please check:</p>
+                    <ul>
+                        <li>The URL is typed correctly</li>
+                        <li>The short link hasn't expired</li>
+                        <li>You have the correct permissions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 URLify. Built with Node.js, Express.js, and MongoDB.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+
+    <style>
+        .error-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .error-page h1 {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-page h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .error-page p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .error-reasons {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .reason-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .reason-icon {
+            font-size: 1.5rem;
+            min-width: 2rem;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .help-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-top: 3rem;
+            text-align: left;
+        }
+
+        .help-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .help-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .help-section li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .help-section li:last-child {
+            border-bottom: none;
+        }
+
+        .help-section li::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .error-page h1 {
+                font-size: 5rem;
+            }
+
+            .error-page h2 {
+                font-size: 2rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .reason-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Animation */
+        .error-content {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-actions .btn {
+            animation: bounce 2s infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        .error-actions .btn:nth-child(1) {
+            --i: 0;
+        }
+
+        .error-actions .btn:nth-child(2) {
+            --i: 1;
+        }
+
+        .error-actions .btn:nth-child(3) {
+            --i: 2;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+
+    <script>
+        // Check if this is a potential short URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const path = window.location.pathname;
+            const shortCodePattern = /^\/[a-zA-Z0-9]{6,8}$/;
+
+            if (shortCodePattern.test(path)) {
+                const errorReasons = document.querySelector('.error-reasons');
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'alert alert-info';
+                warningDiv.style.margin = '2rem 0';
+                warningDiv.innerHTML = `
+                    <strong>Short URL Not Found:</strong> The short code "${path.substring(1)}" doesn't exist or may have been deleted.
+                `;
+                errorReasons.parentNode.insertBefore(warningDiv, errorReasons);
+            }
+        });
+
+        // Add some interactive elements
+        let clickCount = 0;
+        document.querySelector('.error-page h1').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 5) {
+                showAlert('🎉 You found the Easter egg! You are persistent!', 'success');
+                document.querySelector('.error-page h1').style.transform = 'rotate(360deg)';
+                document.querySelector('.error-page h1').style.transition = 'transform 1s ease';
+            }
+        });
+    </script>
+</body>
+
+</html>

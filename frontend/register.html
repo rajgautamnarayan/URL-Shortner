@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - URLify</title>
+    <meta name="description" content="Create your free URLify account to start shortening URLs and tracking analytics.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">URLify</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="form-container">
+                <h2>Create Your Account</h2>
+                <p class="text-center text-muted mb-3">Join URLify to start shortening and managing your URLs</p>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your full name" required
+                            autocomplete="name" autofocus minlength="2" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email address"
+                            required autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input-group">
+                            <input type="password" id="password" class="form-control"
+                                placeholder="Create a strong password" required autocomplete="new-password"
+                                minlength="6">
+                        </div>
+                        <small class="text-muted">
+                            Password must be at least 6 characters with uppercase, lowercase, and number
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control"
+                            placeholder="Confirm your password" required autocomplete="new-password" minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" style="color: #667eea;">Terms of Service</a> and
+                            <a href="#" style="color: #667eea;">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="text-muted">
+                        Already have an account?
+                        <a href="/login" style="color: #667eea; text-decoration: none; font-weight: 600;">
+                            Sign in here
+                        </a>
+                    </p>
+                </div>
+
+                <div class="features-preview mt-3">
+                    <h4 class="text-center" style="color: #333; margin-bottom: 1rem;">What you'll get:</h4>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">🔗</span>
+                            <span>Unlimited URL shortening</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Detailed click analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎛️</span>
+                            <span>Personal dashboard</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <span>Secure link management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 URLify. Built with Node.js, Express.js, and MongoDB.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+
+    <style>
+        .password-input-group {
+            position: relative;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 0.5rem;
+            margin-top: 0.2rem;
+        }
+
+        .features-preview {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Form validation styles */
+        .form-control:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        .form-control:valid:not(:focus):not(:placeholder-shown) {
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        /* Password match validation */
+        #confirmPassword.password-mismatch {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        #confirmPassword.password-match {
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        /* Responsive design for features */
+        @media (max-width: 768px) {
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        // Real-time password confirmation validation
+        document.addEventListener('DOMContentLoaded', () => {
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            const validatePasswordMatch = () => {
+                if (confirmPassword.value && password.value) {
+                    if (password.value === confirmPassword.value) {
+                        confirmPassword.classList.remove('password-mismatch');
+                        confirmPassword.classList.add('password-match');
+                    } else {
+                        confirmPassword.classList.remove('password-match');
+                        confirmPassword.classList.add('password-mismatch');
+                    }
+                } else {
+                    confirmPassword.classList.remove('password-match', 'password-mismatch');
+                }
+            };
+
+            password.addEventListener('input', validatePasswordMatch);
+            confirmPassword.addEventListener('input', validatePasswordMatch);
+
+            // Name validation
+            const nameField = document.getElementById('name');
+            nameField.addEventListener('input', (e) => {
+                const value = e.target.value;
+                if (value.length > 0 && value.length < 2) {
+                    e.target.setCustomValidity('Name must be at least 2 characters long');
+                } else if (value.length > 50) {
+                    e.target.setCustomValidity('Name cannot exceed 50 characters');
+                } else {
+                    e.target.setCustomValidity('');
+                }
+            });
+
+            // Enhanced form validation
+            const form = document.getElementById('registerForm');
+            form.addEventListener('submit', (e) => {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const agreeTerms = document.getElementById('agreeTerms').checked;
+
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    showAlert('Passwords do not match', 'error');
+                    return;
+                }
+
+                if (!agreeTerms) {
+                    e.preventDefault();
+                    showAlert('Please agree to the Terms of Service and Privacy Policy', 'error');
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

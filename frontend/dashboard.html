@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - URLify</title>
+    <meta name="description"
+        content="Manage your shortened URLs, view analytics, and create new short links from your URLify dashboard.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">URLify</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="#" onclick="logout()" class="btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h1 id="welcomeMessage">Welcome to your Dashboard</h1>
+                    <p id="userEmail" class="text-muted"></p>
+                </div>
+
+                <!-- Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalUrls">0</span>
+                        <span class="stat-label">Total URLs</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalClicks">0</span>
+                        <span class="stat-label">Total Clicks</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="avgClicks">0</span>
+                        <span class="stat-label">Avg Clicks per URL</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">📈</span>
+                        <span class="stat-label">Analytics</span>
+                    </div>
+                </div>
+
+                <!-- URL Shortening Form -->
+                <div class="url-form">
+                    <h3 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Create New Short URL</h3>
+                    <form id="urlForm">
+                        <div class="url-input-group">
+                            <input type="url" id="urlInput" class="url-input"
+                                placeholder="Enter your long URL here (e.g., https://example.com/very/long/path)"
+                                required>
+                            <button type="submit" class="btn">Shorten URL</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="urlResult"></div>
+
+                <!-- URLs Management -->
+                <div class="urls-section">
+                    <div class="section-header"
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: #333; margin: 0;">Your Shortened URLs</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-secondary btn-small" onclick="loadDashboard()">
+                                🔄 Refresh
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="exportUrls()">
+                                📊 Export CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="urls-table">
+                            <thead>
+                                <tr>
+                                    <th>Original URL</th>
+                                    <th>Short Code</th>
+                                    <th>Clicks</th>
+                                    <th>Created</th>
+                                    <th>Last Accessed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="urlsTableBody">
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        <div class="loading" style="margin: 2rem auto;"></div>
+                                        <p>Loading your URLs...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions" style="margin-top: 2rem; text-align: center;">
+                    <h4 style="color: #333; margin-bottom: 1rem;">Quick Actions</h4>
+                    <div class="action-buttons"
+                        style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="/" class="btn btn-secondary">🏠 Home</a>
+                        <button class="btn btn-secondary" onclick="window.open('/dashboard', '_blank')">
+                            🔗 New Tab
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 URLify. Built with Node.js, Express.js, and MongoDB.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
+
+    <style>
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Loading animation for table */
+        .table-loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-actions {
+                justify-content: center;
+            }
+
+            .urls-table {
+                font-size: 0.8rem;
+            }
+
+            .urls-table th,
+            .urls-table td {
+                padding: 0.5rem 0.25rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .url-input-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Tooltips for better UX */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+    </style>
+
+    <script>
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'u':
+                        e.preventDefault();
+                        document.getElementById('urlInput')?.focus();
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        loadDashboard();
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        exportUrls();
+                        break;
+                }
+            }
+        });
+
+        // Auto-refresh dashboard every 30 seconds
+        setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                loadDashboard();
+            }
+        }, 30000);
+
+        // Show update notification when data changes
+        window.addEventListener('focus', () => {
+            loadDashboard();
+        });
+    </script>
+</body>
+
+</html>

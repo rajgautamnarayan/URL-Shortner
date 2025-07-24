@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - Shorten Your Links Instantly</title>
+    <meta name="description"
+        content="Free URL shortener service. Create short, memorable links from long URLs instantly. Track clicks and manage your links with our dashboard.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">URLify</a>
+            <ul class="nav-links">
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register" class="btn">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero container">
+            <h1>Shorten Your URLs</h1>
+            <p>Create short, memorable links from long URLs. Track clicks, manage your links, and share them anywhere.
+            </p>
+
+            <div class="url-form" id="urlShortenerSection">
+                <div id="authRequired" class="hidden">
+                    <div class="alert alert-info">
+                        Please <a href="/login">login</a> or <a href="/register">create an account</a> to shorten URLs.
+                    </div>
+                </div>
+
+                <form id="urlForm" class="hidden">
+                    <div class="url-input-group">
+                        <input type="url" id="urlInput" class="url-input"
+                            placeholder="Enter your long URL here (e.g., https://example.com/very/long/path)" required>
+                        <button type="submit" class="btn">Shorten URL</button>
+                    </div>
+                    <div class="text-center text-muted">
+                        <small>Your shortened URLs will be saved to your dashboard</small>
+                    </div>
+                </form>
+            </div>
+
+            <div id="urlResult"></div>
+
+            <div class="features" style="margin-top: 3rem;">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">�</span>
+                            <span class="stat-label">QR Code Generator</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">📊</span>
+                            <span class="stat-label">Click Analytics</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">🔒</span>
+                            <span class="stat-label">Secure & Private</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">⚡</span>
+                            <span class="stat-label">Lightning Fast</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 URLify. Built with Node.js, Express.js, and MongoDB.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Handle URL shortening on home page
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlForm = document.getElementById('urlForm');
+            const authRequired = document.getElementById('authRequired');
+
+            // Show appropriate section based on auth status
+            if (isAuthenticated()) {
+                urlForm.classList.remove('hidden');
+                authRequired.classList.add('hidden');
+            } else {
+                urlForm.classList.add('hidden');
+                authRequired.classList.remove('hidden');
+            }
+
+            // Handle form submission
+            if (urlForm) {
+                urlForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const urlInput = document.getElementById('urlInput');
+                    const submitBtn = urlForm.querySelector('button[type="submit"]');
+                    const resultDiv = document.getElementById('urlResult');
+
+                    try {
+                        const response = await shortenUrl(urlInput.value);
+
+                        // Show result
+                        resultDiv.innerHTML = `
+                            <div class="result fade-in">
+                                <h3>🎉 URL Shortened Successfully!</h3>
+                                <div class="short-url">${response.data.shortUrl}</div>
+                                ${response.data.qrCode ? `
+                                    <div class="qr-code-section" style="margin: 1.5rem 0; text-align: center;">
+                                        <h4 style="margin-bottom: 1rem; color: #333;">📱 QR Code</h4>
+                                        <img src="${response.data.qrCode}" alt="QR Code for ${response.data.shortUrl}" 
+                                             style="max-width: 200px; border: 2px solid #eee; border-radius: 8px; padding: 10px; background: white;">
+                                        <div style="margin-top: 0.5rem;">
+                                            <button class="btn btn-secondary btn-sm" onclick="downloadQRCode('${response.data.qrCode}', '${response.data.shortCode}')">
+                                                💾 Download QR Code
+                                            </button>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                <div class="url-actions">
+                                    <button class="btn btn-secondary" onclick="copyToClipboard('${response.data.shortUrl}', this)">
+                                        📋 Copy Link
+                                    </button>
+                                    <a href="${response.data.shortUrl}" target="_blank" class="btn btn-secondary">
+                                        🔗 Test Link
+                                    </a>
+                                    <a href="/dashboard" class="btn">
+                                        📊 View Dashboard
+                                    </a>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">
+                                        Original: ${response.data.originalUrl.length > 50 ?
+                                response.data.originalUrl.substring(0, 50) + '...' :
+                                response.data.originalUrl}
+                                    </small>
+                                </div>
+                            </div>
+                        `;
+
+                        // Clear form
+                        urlInput.value = '';
+
+                        showAlert('URL shortened successfully!', 'success');
+                    } catch (error) {
+                        console.error('URL shortening error:', error);
+                        showAlert(error.message || 'Failed to shorten URL', 'error');
+                    } finally {
+                        // Reset button
+                        submitBtn.innerHTML = 'Shorten URL';
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+        });
+
+        // QR Code download function
+        function downloadQRCode(dataURL, shortCode) {
+            const link = document.createElement('a');
+            link.download = `qr-code-${shortCode}.png`;
+            link.href = dataURL;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showAlert('QR Code downloaded successfully!', 'success');
+        }
+
+        // Make function globally available
+        window.downloadQRCode = downloadQRCode;
+    </script>
+</body>
+
+</html>

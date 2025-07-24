@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error - URLify</title>
+    <meta name="description" content="Something went wrong on our server. We're working to fix this issue.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">URLify</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register" class="btn">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="error-page container">
+            <div class="error-content">
+                <h1>500</h1>
+                <h2>Internal Server Error</h2>
+                <p>Oops! Something went wrong on our end. We're working to fix this issue.</p>
+
+                <div class="error-info">
+                    <div class="info-item">
+                        <span class="info-icon">🔧</span>
+                        <div>
+                            <strong>We're on it!</strong>
+                            <p>Our team has been notified and is working to resolve this issue.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⏰</span>
+                        <div>
+                            <strong>Try again in a few minutes</strong>
+                            <p>This is usually a temporary issue that resolves quickly.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">💾</span>
+                        <div>
+                            <strong>Your data is safe</strong>
+                            <p>No data has been lost. Your URLs and account are secure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-actions">
+                    <button class="btn" onclick="location.reload()">🔄 Try Again</button>
+                    <a href="/" class="btn btn-secondary">🏠 Go Home</a>
+                    <a href="/dashboard" class="btn btn-secondary">📊 Dashboard</a>
+                </div>
+
+                <div class="status-section">
+                    <h3>What you can do:</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-icon">🔄</span>
+                            <span>Refresh the page</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-icon">⏳</span>
+                            <span>Wait a few minutes</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-icon">🏠</span>
+                            <span>Return to homepage</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-icon">📞</span>
+                            <span>Contact support if persistent</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="retry-timer">
+                    <p>Automatic retry in: <span id="countdown">30</span> seconds</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 URLify. Built with Node.js, Express.js, and MongoDB.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+
+    <style>
+        .error-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .error-page h1 {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-page h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .error-page p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .error-info {
+            display: grid;
+            gap: 1.5rem;
+            margin: 3rem 0;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            min-width: 3rem;
+            text-align: center;
+        }
+
+        .info-item strong {
+            color: white;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-item p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .status-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin: 3rem 0;
+        }
+
+        .status-section h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .status-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-icon {
+            font-size: 1.5rem;
+            min-width: 2rem;
+        }
+
+        .retry-timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+        }
+
+        .retry-timer p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 100%;
+            animation: countdown 30s linear;
+        }
+
+        @keyframes countdown {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .error-page h1 {
+                font-size: 5rem;
+            }
+
+            .error-page h2 {
+                font-size: 2rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Pulsing effect for error icon */
+        .error-page h1 {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Fade in animation */
+        .error-content {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        // Countdown timer for automatic retry
+        let countdown = 30;
+        const countdownElement = document.getElementById('countdown');
+        const progressFill = document.getElementById('progressFill');
+
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(timer);
+                showAlert('Attempting to reload...', 'info');
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            }
+        }, 1000);
+
+        // Allow user to cancel auto-reload
+        document.addEventListener('click', () => {
+            clearInterval(timer);
+            const timerSection = document.querySelector('.retry-timer');
+            if (timerSection) {
+                timerSection.innerHTML = `
+                    <p style="color: #ffc107;">⏸️ Auto-reload cancelled</p>
+                    <small>Click "Try Again" to manually reload</small>
+                `;
+            }
+        }, { once: true });
+
+        // Error reporting (optional)
+        const reportError = () => {
+            const errorData = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString(),
+                referrer: document.referrer
+            };
+
+            console.log('Error Report:', errorData);
+            showAlert('Error report logged. Thank you for helping us improve!', 'info');
+        };
+
+        // Add error reporting button
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionsDiv = document.querySelector('.error-actions');
+            const reportBtn = document.createElement('button');
+            reportBtn.className = 'btn btn-secondary';
+            reportBtn.innerHTML = '📊 Report Issue';
+            reportBtn.onclick = reportError;
+            actionsDiv.appendChild(reportBtn);
+        });
+
+        // Network status detection
+        window.addEventListener('online', () => {
+            showAlert('🌐 Connection restored! You can try again now.', 'success');
+            clearInterval(timer);
+            setTimeout(() => location.reload(), 2000);
+        });
+
+        window.addEventListener('offline', () => {
+            showAlert('🔌 You appear to be offline. Please check your connection.', 'error');
+            clearInterval(timer);
+        });
+    </script>
+</body>
+
+</html>
