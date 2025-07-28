@@ -49,7 +49,7 @@ const shortenLimiter = rateLimit({
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL] 
+    ? ['https://url-shortner-mrgs-projects.vercel.app'] 
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true
 }));
