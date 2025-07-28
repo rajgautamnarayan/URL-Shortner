@@ -50,6 +50,8 @@ const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_BASE_URL}${endpoint}`;
     const token = getAuthToken();
 
+    console.log('Making API request to:', url); // Debug log
+
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -64,6 +66,8 @@ const apiRequest = async (endpoint, options = {}) => {
 
     try {
         const response = await fetch(url, config);
+        console.log('Response status:', response.status); // Debug log
+        
         const data = await response.json();
 
         if (!response.ok) {
@@ -73,6 +77,8 @@ const apiRequest = async (endpoint, options = {}) => {
         return data;
     } catch (error) {
         console.error('API request error:', error);
+        console.error('Request URL:', url); // Debug log
+        console.error('Request config:', config); // Debug log
         
         // Handle authentication errors
         if (error.message.includes('expired') || error.message.includes('invalid')) {
