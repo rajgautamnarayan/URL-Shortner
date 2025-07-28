@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'https://urlify-loky.onrender.com/api';
 
 // Utility functions
 const showAlert = (message, type = 'info') => {

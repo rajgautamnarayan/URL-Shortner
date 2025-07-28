@@ -2,6 +2,11 @@
 
 A simple and efficient URL shortener application built with Node.js, Express, and MongoDB.
 
+## 🚀 Live Demo
+
+- **Frontend**: https://url-shortner-mrgs-projects.vercel.app
+- **Backend API**: https://urlify-loky.onrender.com
+
 ## Features
 
 - Shorten long URLs into manageable links
@@ -33,7 +38,7 @@ A simple and efficient URL shortener application built with Node.js, Express, an
    PORT=8080
    MONGODB_URI=mongodb://localhost:27017/url-shortener
    JWT_SECRET=your-secret-key
-   BASE_URL=http://localhost:8080
+   BASE_URL=https://urlify-loky.onrender.com
    ```
 
 3. **Start the application**:
@@ -43,7 +48,24 @@ A simple and efficient URL shortener application built with Node.js, Express, an
    ```
 
 4. **Open your browser**:
-   Go to `http://localhost:8080`
+   Go to `https://url-shortner-mrgs-projects.vercel.app`
+
+## Production Setup
+
+For production deployment:
+
+```env
+NODE_ENV=production
+BASE_URL=https://urlify-loky.onrender.com
+FRONTEND_URL=https://url-shortner-mrgs-projects.vercel.app
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/url-shortener
+JWT_SECRET=your-production-secret-key
+```
+
+**Deployed on**:
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas
 
 ## Project Structure
 
