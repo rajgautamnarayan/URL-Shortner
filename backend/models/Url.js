@@ -65,7 +65,6 @@ const urlSchema = new mongoose.Schema({
 });
 
 // Indexes for performance
-urlSchema.index({ shortCode: 1 });
 urlSchema.index({ ownerUserId: 1 });
 urlSchema.index({ createdAt: -1 });
 

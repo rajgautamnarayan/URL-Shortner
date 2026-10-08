@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo:27017/url-shortener
+      JWT_SECRET: local-development-secret-change-me
+      BASE_URL: http://localhost:3000
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:8
+    volumes:
+      - urlify-data:/data/db
+
+volumes:
+  urlify-data:

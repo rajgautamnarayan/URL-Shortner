@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -29,22 +29,14 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster email lookups
-userSchema.index({ email: 1 });
-
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function() {
   // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('passwordHash')) return next();
-  
-  try {
-    // Hash password with cost factor of 12
-    const salt = await bcrypt.genSalt(12);
-    this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
+  if (!this.isModified('passwordHash')) return;
+
+  // Hash password with cost factor of 12
+  const salt = await bcrypt.genSalt(12);
+  this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
 });
 
 // Compare password method

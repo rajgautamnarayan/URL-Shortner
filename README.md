@@ -2,10 +2,9 @@
 
 A simple and efficient URL shortener application built with Node.js, Express, and MongoDB.
 
-## 🚀 Live Demo
+## Deployment status
 
-- **Frontend**: https://url-shortner-mrgs-projects.vercel.app
-- **Backend API**: https://urlify-loky.onrender.com
+The previous split Vercel/Render deployment is retired. This repository now serves the frontend and API from one Node.js service, which keeps API URLs, redirects, and CORS configuration consistent.
 
 ## Features
 
@@ -25,30 +24,22 @@ A simple and efficient URL shortener application built with Node.js, Express, an
 
 ## Quick Start
 
-1. **Install dependencies**:
+1. **Start the application and MongoDB**:
 
    ```bash
-   npm install
+   docker compose up --build
    ```
 
-2. **Set up environment variables**:
-   Create a `.env` file:
+2. **Open the application**:
 
-   ```env
-   PORT=8080
-   MONGODB_URI=mongodb://localhost:27017/url-shortener
-   JWT_SECRET=your-secret-key
-   BASE_URL=https://urlify-loky.onrender.com
-   ```
+   Go to `http://localhost:3000`.
 
-3. **Start the application**:
+For development without Docker, copy `.env.example` to `.env`, point `MONGODB_URI` at a running MongoDB instance, then run:
 
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**:
-   Go to `https://url-shortner-mrgs-projects.vercel.app`
+```bash
+npm install
+npm run dev
+```
 
 ## Production Setup
 
@@ -57,15 +48,12 @@ For production deployment:
 ```env
 NODE_ENV=production
 BASE_URL=https://urlify-loky.onrender.com
-FRONTEND_URL=https://url-shortner-mrgs-projects.vercel.app
+FRONTEND_URL=https://your-urlify-domain.example
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/url-shortener
 JWT_SECRET=your-production-secret-key
 ```
 
-**Deployed on**:
-- Frontend: Vercel
-- Backend: Render
-- Database: MongoDB Atlas
+Deploy the included `render.yaml` as a Render Blueprint. Add `MONGODB_URI` from MongoDB Atlas, then set `BASE_URL` and `FRONTEND_URL` to the Render service URL. One service hosts both the frontend and backend.
 
 ## Project Structure
 

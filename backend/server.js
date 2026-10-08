@@ -10,9 +10,6 @@ const Url = require('./models/Url');
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -47,10 +44,18 @@ const shortenLimiter = rateLimit({
 });
 
 // Middleware
+const configuredOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://url-shortner-mrgs-projects.vercel.app'] 
-    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin(origin, callback) {
+    if (!origin || configuredOrigins.length === 0 || configuredOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Origin is not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -139,7 +144,7 @@ app.get('/:shortCode', async (req, res) => {
 });
 
 // 404 handler for undefined routes
-app.use('*', (req, res) => {
+app.use((req, res) => {
   if (req.originalUrl.startsWith('/api/')) {
     res.status(404).json({
       success: false,
@@ -200,10 +205,28 @@ app.use((error, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const startServer = async () => {
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is required');
+  }
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is required');
+  }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`Frontend URL: http://localhost:${PORT}`);
-});
+  await connectDB();
+  const port = process.env.PORT || 3000;
+  return app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Frontend URL: ${process.env.BASE_URL || `http://localhost:${port}`}`);
+  });
+};
+
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error(`Unable to start server: ${error.message}`);
+    process.exit(1);
+  });
+}
+
+module.exports = { app, startServer };

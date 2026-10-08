@@ -1,5 +1,5 @@
 const express = require('express');
-const { nanoid } = require('nanoid');
+const { randomBytes } = require('node:crypto');
 const { body, validationResult } = require('express-validator');
 const QRCode = require('qrcode');
 const Url = require('../models/Url');
@@ -92,7 +92,7 @@ router.post('/shorten', [
     const maxAttempts = 10;
 
     do {
-      shortCode = nanoid(7); // Generate 7-character code
+      shortCode = randomBytes(6).toString('base64url').slice(0, 7);
       attempts++;
       
       if (attempts > maxAttempts) {
