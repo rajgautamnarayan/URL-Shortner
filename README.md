@@ -4,7 +4,7 @@ A simple and efficient URL shortener application built with Node.js, Express, an
 
 ## Deployment status
 
-The previous split Vercel/Render deployment is retired. This repository now serves the frontend and API from one Node.js service, which keeps API URLs, redirects, and CORS configuration consistent.
+The previous split Vercel/Render deployment is retired. The live deployment now serves the frontend and API from one Railway Node.js service, which keeps API URLs, redirects, and CORS configuration consistent.
 
 ## Features
 
@@ -53,7 +53,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/url-shortener
 JWT_SECRET=your-production-secret-key
 ```
 
-Deploy the included `render.yaml` as a Render Blueprint and provide `MONGODB_URI` from MongoDB Atlas when prompted. Render generates the JWT secret, and the app derives its public URL from Render automatically. One service hosts both the frontend and backend.
+Deploy this repository as a Railway service with `npm start`, then set `MONGODB_URI`, `JWT_SECRET`, `BASE_URL`, and `FRONTEND_URL`. The live deployment uses MongoDB Atlas M0 for persistence and Railway's generated public domain.
 
 ## Project Structure
 
