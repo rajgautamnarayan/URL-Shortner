@@ -53,7 +53,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/url-shortener
 JWT_SECRET=your-production-secret-key
 ```
 
-Deploy the included `render.yaml` as a Render Blueprint. Add `MONGODB_URI` from MongoDB Atlas, then set `BASE_URL` and `FRONTEND_URL` to the Render service URL. One service hosts both the frontend and backend.
+Deploy the included `render.yaml` as a Render Blueprint and provide `MONGODB_URI` from MongoDB Atlas when prompted. Render generates the JWT secret, and the app derives its public URL from Render automatically. One service hosts both the frontend and backend.
 
 ## Project Structure
 

@@ -7,6 +7,10 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+const getBaseUrl = () => process.env.BASE_URL
+  || (process.env.RENDER_EXTERNAL_HOSTNAME && `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`)
+  || 'http://localhost:3000';
+
 // Validate URL function
 const isValidUrl = (string) => {
   try {
@@ -183,7 +187,7 @@ router.get('/urls', auth, async (req, res) => {
       id: url._id,
       originalUrl: url.originalUrl,
       shortCode: url.shortCode,
-      shortUrl: `${process.env.BASE_URL}/${url.shortCode}`,
+      shortUrl: `${getBaseUrl()}/${url.shortCode}`,
       clickCount: url.clickCount,
       createdAt: url.createdAt,
       lastAccessed: url.lastAccessed,
@@ -248,7 +252,7 @@ router.get('/urls/:id', auth, async (req, res) => {
         id: url._id,
         originalUrl: url.originalUrl,
         shortCode: url.shortCode,
-        shortUrl: `${process.env.BASE_URL}/${url.shortCode}`,
+        shortUrl: `${getBaseUrl()}/${url.shortCode}`,
         clickCount: url.clickCount,
         createdAt: url.createdAt,
         lastAccessed: url.lastAccessed,

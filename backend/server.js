@@ -49,6 +49,10 @@ const configuredOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+if (process.env.RENDER_EXTERNAL_HOSTNAME) {
+  configuredOrigins.push(`https://${process.env.RENDER_EXTERNAL_HOSTNAME}`);
+}
+
 app.use(cors({
   origin(origin, callback) {
     if (!origin || configuredOrigins.length === 0 || configuredOrigins.includes(origin)) {

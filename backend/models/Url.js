@@ -95,7 +95,10 @@ urlSchema.statics.findByShortCode = function(shortCode) {
 
 // Virtual for full short URL
 urlSchema.virtual('shortUrl').get(function() {
-  return `${process.env.BASE_URL}/${this.shortCode}`;
+  const baseUrl = process.env.BASE_URL
+    || (process.env.RENDER_EXTERNAL_HOSTNAME && `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`)
+    || 'http://localhost:3000';
+  return `${baseUrl}/${this.shortCode}`;
 });
 
 // Ensure virtual fields are serialized
